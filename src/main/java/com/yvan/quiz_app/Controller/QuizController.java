@@ -60,10 +60,10 @@ public class QuizController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping("/Topic/Question")
-    public ResponseEntity<Question> saveQuestion(@RequestBody Question question){
+    @PostMapping("/Topic/{topicId}/Question")
+    public ResponseEntity<Question> saveQuestion(@RequestBody Question question,@PathVariable Long topicId) throws Exception {
 
-        Question saveQuestionToDB = questionServiceImpl.saveQuestion(question);
+        Question saveQuestionToDB = questionServiceImpl.saveQuestion(question,topicId);
         return new ResponseEntity<Question>(saveQuestionToDB,HttpStatus.CREATED);
     }
 

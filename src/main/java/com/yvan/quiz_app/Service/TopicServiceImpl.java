@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TopicServiceImpl implements TopicService {
@@ -27,24 +28,6 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public Topic save(Topic topic) {
         Topic savedTopic = topicRepository.save(topic);
-        List<Question> questions = topic.getQuestions();
-        System.out.println("reached the save question func");
-        if (questions != null) {
-            for (Question question : questions) {
-                System.out.println("save topic is: " + savedTopic);
-                question.setTopic(topic);
-                questionServiceImpl.saveQuestion(question);
-                List<Choices> choices = question.getChoices();
-                if (choices != null) {
-                    for (Choices choice : choices) {
-                        choice.setQuestion(question);
-                        choicesServiceImpl.saveChoice(choice);
-                    }
-                }
-            }
-        }
-        // Update the saved topic with the modified questions
-        savedTopic.setQuestions(questions);
         return topicRepository.save(savedTopic);
     }
 
@@ -60,8 +43,8 @@ public class TopicServiceImpl implements TopicService {
 
     @Override
     public void deleteTopic(Long id){
-        Topic topicFromDB = topicRepository.findById(id).get();
-        if(topicFromDB != null){
+       Optional <Topic> topicFromDB = topicRepository.findById(id);
+        if(topicFromDB.isPresent()){
             topicRepository.deleteById(id);
         }else{
         throw new ClassCastException("Could not find Entity with ID: " + id + ", Check ID and try again.");

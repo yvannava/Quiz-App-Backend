@@ -31,17 +31,19 @@ public class QuestionServiceImpl implements QuestionService{
 
     @Transactional
     @Override
-    public Question saveQuestion(Question question) {
+    public Question saveQuestion(Question question,Long topidId){
         //Grabs the list
         List<Choices> incomingChoiceList = question.getChoices();
-
+        Optional<Topic> incomingTopic = topicRepository.findById(topidId);
+        if(incomingTopic.isPresent()){
+            question.setTopic(incomingTopic.get());
+        }else{
+             new NoSuchFieldException("The Topic field is empty");
+        }
         //Updates the Question field in the Choices object
         incomingChoiceList
                 .forEach((choice) -> choice.setQuestion(question));
-        Topic topicFromDB = topicRepository.findById(question.getTopic().getId()).get();
-        topicFromDB.getQuestions().add(question);
-        topicRepository.save(topicFromDB);
-//        System.out.println(topicFromFrontEnd);
+
         return questionRepository.save(question);
     }
 

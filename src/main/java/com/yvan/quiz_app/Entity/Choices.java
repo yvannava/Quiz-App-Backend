@@ -16,10 +16,9 @@ public class Choices {
     private Long id;
     @Column(name = "choice_text")
     private String choiceText;
-
     @JsonIgnore
     @ManyToOne
-    @JoinColumn(name = "question_id")
+    @JoinColumn(referencedColumnName = "id")
     private Question question;
 
     public Choices(String choiceText){

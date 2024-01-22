@@ -6,7 +6,7 @@ import com.yvan.quiz_app.Entity.Topic;
 import java.util.List;
 
 public interface QuestionService {
-    Question saveQuestion(Question question);
+    Question saveQuestion(Question question,Long topicId);
     List<Question> getAll();
 
     Question getQuestion(Long id);
