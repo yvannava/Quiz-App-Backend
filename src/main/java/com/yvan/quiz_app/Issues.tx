@@ -1,0 +1,8 @@
+**
+-Question has a column with topi_id that shows null
+-Question is not regisitering the topic name
+
+-Choice has a column with question_id that shows null
+-Choice has a field that shows null
+
+-Topic shows an empty question array
